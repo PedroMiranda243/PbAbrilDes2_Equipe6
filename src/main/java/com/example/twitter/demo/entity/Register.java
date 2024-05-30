@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "register")
+@Table
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Data
 public class Register {
 

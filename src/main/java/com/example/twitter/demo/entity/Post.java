@@ -2,10 +2,12 @@ package com.example.twitter.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "posts")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Data
 public class Post {
 
@@ -13,26 +15,19 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "register_id")
-    private Register register;
-
-    private String authorId;
-    private String author;
-
-    @Column(columnDefinition = "TEXT")
     private String text;
 
-    private int likes;
-    private int reposts;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
+    private Register author;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "post_id")
-    private List<Comment> comments;
-
-    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime updatedAt;
+    private int likes;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Repost> reposts;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> comments;
 }

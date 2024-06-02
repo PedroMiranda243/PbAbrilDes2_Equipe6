@@ -2,6 +2,8 @@ package com.example.twitter.demo.dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,7 +15,7 @@ public class RegisterResponseDto {
     private String firstName;
     private String lastName;
     private String summary;
-    private String birthDate;
+    private LocalDate birthDate;
     private String username;
     private String email;
     private String password;

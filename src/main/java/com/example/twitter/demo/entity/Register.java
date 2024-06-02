@@ -1,8 +1,6 @@
 package com.example.twitter.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -21,23 +19,18 @@ public class Register {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     private String firstName;
-    @NotBlank
+
     private String lastName;
 
     private String summary;
 
-    @NotNull
-    private LocalDate birthdate;
+    private LocalDate birthDate;
 
-    @NotBlank
     private String username;
 
-    @NotBlank
     private String email;
 
-    @NotBlank
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -63,7 +56,7 @@ public class Register {
 
     public void validateAge(){
         LocalDate today = LocalDate.now();
-        Period period = Period.between(birthdate, today);
+        Period period = Period.between(birthDate, today);
         int age = period.getYears();
         if(age < 18){
             throw new IllegalArgumentException("Need be 18 or older than 18");

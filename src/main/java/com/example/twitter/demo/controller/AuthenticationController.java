@@ -28,7 +28,7 @@ public class AuthenticationController {
     private final JwtUserDatailsService detailsService;
     private final AuthenticationManager authenticationManager;
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<?> autenticar(@RequestBody @Valid RegisterLoginDto dto, HttpServletRequest request) {
         log.info("Processo de autenticação pelo login {}", dto.getUsername());
         try {

@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "register", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class UsuarioController {
 
     @Autowired
     private RegisterService registerService;
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<RegisterResponseDto> create(@Valid @RequestBody RegisterCreateDto createDto) {
         Register register = registerService.salvar(RegisterMapper.toUsuario(createDto));
         return ResponseEntity.status(HttpStatus.CREATED).body(RegisterMapper.toDto(register));
@@ -40,7 +40,7 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<RegisterResponseDto>> getAll() {
         List<Register> registers = registerService.buscarTodos();
         return ResponseEntity.ok(RegisterMapper.toListDto(registers));

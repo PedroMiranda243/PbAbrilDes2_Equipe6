@@ -1,9 +1,9 @@
 package com.example.twitter.demo.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -12,10 +12,22 @@ import lombok.*;
 @ToString
 public class RegisterCreateDto {
 
+    private Long id;
     @NotBlank
-    @Email(message = "formato do e-mail está invalido", regexp = "^[a-z0-9.+-]+@[a-z0-9.-]+\\.[a-z]{2,}$")
+    private String firstName;
+    @NotBlank
+    private String lastName;
+    @NotBlank
+    private String summary;
+    private LocalDate birthDate;
+    @NotBlank
+    private String email;
+
+    private String role = "ROLE_USUARIO";
+
+    @NotBlank
     private String username;
+
     @NotBlank
-    @Size(min = 6, max = 6)
     private String password;
 }

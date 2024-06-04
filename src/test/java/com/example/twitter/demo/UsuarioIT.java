@@ -243,18 +243,18 @@ public class UsuarioIT {
     }
 
     @Test
-    public void editarSenha_ComDadosValidos_RetornarStatus204() {
+    public void editPassworWithValidDataReturnStatus204() {
         testClient
                 .patch()
                 .uri("/register/12")
-                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "Jolano@gmail.com@gmail.com", "senha123"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(new RegisterSenhaDto("senha123", "123456", "123456"))
                 .exchange()
                 .expectStatus().isNoContent();
     }
 
-    public void editarSenha_ComDadosInvalidos_RetornarStatus400() {
+    public void editPasswordWithInvalidDataReturnStatus400() {
         ErrorMessage responseBody = testClient
                 .patch()
                 .uri("register/12")
@@ -270,13 +270,13 @@ public class UsuarioIT {
         org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(400);
     }
 
-    public void editarSenha_ComDadosMalFormatados_RetornarStatus422() {
+    public void editPasswordWithWrongFormatFieldsReturnStatus400() {
     exemplo.setEmail("");
     exemplo.setFirstName("");
     ErrorMessage responseBody = testClient
             .patch()
             .uri("register/12")
-            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@email.com", "123456"))
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, " ana@emaasaail.com", "123456"))
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(exemplo)
             .exchange()
@@ -289,7 +289,7 @@ public class UsuarioIT {
     }
 
     @Test
-    public void listarUsuarios_ComUsuarioComPermissao_RetornarListaDeUsuariosComStatus200() {
+    public void getUsersWithAuthorizationReturnUsersListWithStatus204() {
         List<RegisterResponseDto> responseBody = testClient
                 .get()
                 .uri("/register")

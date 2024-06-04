@@ -48,7 +48,7 @@ public class UsuarioController {
     //Campo comentado em espera de autorização do recurso
     @Operation(
             summary ="Recuperação de usuário por Id", description = "Recurso de recuperação de usuário por Id da API",
-            //security = @SecurityRequirement(name = "security"),
+            security = @SecurityRequirement(name = "security"),
             responses ={
                     @ApiResponse(responseCode = "200", description = "Usuário encontrado com sucesso",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = RegisterResponseDto.class))),
@@ -63,17 +63,17 @@ public class UsuarioController {
         return ResponseEntity.ok(RegisterMapper.toDto(register));
     }
 
-    //Campos comentados em espera de autorização do recurso
+
     @Operation(
             summary ="Atualização de senha", description = "Recurso de atualização de senha, recurso necessita de um token Bearer." +
             "Acesso restrito a Admin|Cliente",
-            //security = @SecurityRequirement(name = "security"),
+            security = @SecurityRequirement(name = "security"),
             responses = {
                     @ApiResponse(responseCode = "204", description = "Senha atualizada com sucesso"),
                     @ApiResponse(responseCode = "400", description = "Senha não confere",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
-                    //@ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso",
-                    //        content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+                    @ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
                     @ApiResponse(responseCode = "422", description = "Campos inválidos ou mal formatados",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
             })
@@ -83,15 +83,15 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
 
-    //Campos comentado em espera de autorização do recurso
+
     @Operation(summary = "Listar todos os usuários cadastrados", description = "Requisição exige um Bearer Token. Acesso restrito a ADMIN",
-            //security = @SecurityRequirement(name = "security"),
+            security = @SecurityRequirement(name = "security"),
             responses = {
                     @ApiResponse(responseCode = "200", description = "Lista com todos os usuários cadastrados",
                             content = @Content(mediaType = "application/json",
                                     array = @ArraySchema(schema = @Schema(implementation = RegisterResponseDto.class))))
-                    //,@ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso",
-                            //content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+                    ,@ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
             })
     @GetMapping
     public ResponseEntity<List<RegisterResponseDto>> getAll() {
@@ -99,21 +99,21 @@ public class UsuarioController {
         return ResponseEntity.ok(RegisterMapper.toListDto(registers));
     }
 
-    //Campos comentados em espera de autorização do recurso
+
     @Operation(
             summary ="Exclusão de usuário por Id", description = "Recurso de exclusão de usuário por Id da API." +
             "Requisição exige um Bearer Token. Acesso restrito a ADMIN",
-            //security = @SecurityRequirement(name = "security"),
+            security = @SecurityRequirement(name = "security"),
             responses ={
-                    @ApiResponse(responseCode = "204", description = "Usuário deletado com sucesso"),
-                    //@ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso",
-                    //        content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
-                    @ApiResponse(responseCode = "404", description = "Recurso não encontrado",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+                    @ApiResponse(responseCode = "204", description = "Usuário deletado com sucesso")
+                    ,@ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
             })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         registerService.excluirPorId(id);
         return ResponseEntity.noContent().build();
     }
+
+
 }

@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @ToString
 public class RegisterCreateDto {
 
-    private Long id;
     @NotBlank
     private String firstName;
     @NotBlank

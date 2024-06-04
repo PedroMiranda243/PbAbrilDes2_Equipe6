@@ -3,6 +3,7 @@ package com.example.twitter.demo.exception;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,7 @@ import org.springframework.validation.FieldError;
 import java.util.HashMap;
 import java.util.Map;
 
+@Setter
 @Getter
 @ToString
 public class ErrorMessage {

@@ -19,7 +19,7 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @PostMapping
+    @PostMapping("/{id}")
     public ResponseEntity<Post> createPost(@RequestBody Post post, @AuthenticationPrincipal UserDetails userDetails) {
         Long userId = ((JwtUserDetails) userDetails).getId();
         Post createdPost = postService.createPost(post.getText(), userId);

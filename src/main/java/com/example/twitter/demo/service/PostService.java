@@ -1,15 +1,15 @@
 package com.example.twitter.demo.service;
 
+import com.example.twitter.demo.entity.Comment;
 import com.example.twitter.demo.entity.Post;
 import com.example.twitter.demo.entity.Register;
 import com.example.twitter.demo.exception.EntityNotFoundException;
+import com.example.twitter.demo.repository.CommentRepository;
 import com.example.twitter.demo.repository.PostRepository;
 import com.example.twitter.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -17,6 +17,9 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -36,9 +39,15 @@ public class PostService {
         postRepository.deleteById(id);
     }
 
-
     public Post getPostById(Long id) {
-        return postRepository.findById(id).orElseThrow();
+        Post post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Post not found"));
+        List<Comment> comments = getCommentsForPost(id);
+        post.setComments(comments);
+        return post;
+    }
+
+    public List<Comment> getCommentsForPost(Long postId) {
+        return commentRepository.findByPostId(postId);
     }
 
     public List<Post> getAllPosts() {

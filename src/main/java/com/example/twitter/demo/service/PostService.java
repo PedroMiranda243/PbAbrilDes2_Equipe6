@@ -1,5 +1,6 @@
 package com.example.twitter.demo.service;
 
+import com.example.twitter.demo.dto.postDto.PostDTO;
 import com.example.twitter.demo.entity.Comment;
 import com.example.twitter.demo.entity.Post;
 import com.example.twitter.demo.entity.Register;
@@ -73,5 +74,13 @@ public class PostService {
         repost.setRepostOf(originalPost);
         repost.setAuthor(author);
         return postRepository.save(repost);
+    }
+
+    public PostDTO mapToDTO(Post post) {
+        PostDTO dto = new PostDTO();
+        dto.setId(post.getId());
+        dto.setText(post.getText());
+        dto.setLikes(post.getLikes());
+        return dto;
     }
 }

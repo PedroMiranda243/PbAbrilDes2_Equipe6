@@ -1,5 +1,6 @@
 package com.example.twitter.demo.controller;
 
+import com.example.twitter.demo.dto.postDto.PostDTO;
 import com.example.twitter.demo.entity.Post;
 import com.example.twitter.demo.security.JwtUserDetails;
 import com.example.twitter.demo.service.PostService;
@@ -19,11 +20,12 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Post> createPost(@RequestBody Post post, @AuthenticationPrincipal UserDetails userDetails) {
+    @PostMapping
+    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO, @AuthenticationPrincipal UserDetails userDetails) {
         Long userId = ((JwtUserDetails) userDetails).getId();
-        Post createdPost = postService.createPost(post.getText(), userId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
+        Post createdPost = postService.createPost(postDTO.getText(), userId);
+        PostDTO createdPostDTO = mapToDTO(createdPost);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdPostDTO);
     }
 
     @DeleteMapping("/{id}")
@@ -58,5 +60,13 @@ public class PostController {
         Long userId = ((JwtUserDetails) userDetails).getId();
         Post repost = postService.repost(id, userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(repost);
+    }
+
+    private PostDTO mapToDTO(Post post) {
+        PostDTO dto = new PostDTO();
+        dto.setId(post.getId());
+        dto.setText(post.getText());
+        dto.setLikes(post.getLikes());
+        return dto;
     }
 }

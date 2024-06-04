@@ -2,6 +2,8 @@ package com.example.twitter.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,6 +22,7 @@ public class Follow {
     @JoinColumn(name = "followed_id")
     private Register followed;
 
+    @CreatedDate
     @Column(name = "followed_at")
     private LocalDateTime followedAt;
 }

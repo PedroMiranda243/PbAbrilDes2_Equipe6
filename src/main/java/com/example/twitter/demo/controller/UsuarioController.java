@@ -1,8 +1,10 @@
 package com.example.twitter.demo.controller;
 
-import com.example.twitter.demo.dto.RegisterCreateDto;
-import com.example.twitter.demo.dto.RegisterResponseDto;
-import com.example.twitter.demo.dto.RegisterSenhaDto;
+import com.example.twitter.demo.dto.profileDto.ProfileDto;
+import com.example.twitter.demo.dto.registerDto.RegisterCreateDto;
+import com.example.twitter.demo.dto.registerDto.RegisterResponseDto;
+import com.example.twitter.demo.dto.registerDto.RegisterSenhaDto;
+import com.example.twitter.demo.dto.mapper.ProfileMapper;
 import com.example.twitter.demo.dto.mapper.RegisterMapper;
 import com.example.twitter.demo.entity.Register;
 import com.example.twitter.demo.service.RegisterService;
@@ -50,5 +52,24 @@ public class UsuarioController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         registerService.excluirPorId(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<ProfileDto> getProfileById(@PathVariable Long id) {
+        Register register = registerService.buscarPorId(id);
+        ProfileDto profileDto = ProfileMapper.toDto(register);
+        return ResponseEntity.ok(profileDto);
+    }
+
+    @PostMapping("/follow/{userId}/{followerId}")
+    public ResponseEntity<Void> followUser(@PathVariable Long userId, @PathVariable Long followerId) {
+        registerService.follow(userId, followerId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/unfollow/{userId}/{followerId}")
+    public ResponseEntity<Void> unfollowUser(@PathVariable Long userId, @PathVariable Long followerId) {
+        registerService.unfollow(userId, followerId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

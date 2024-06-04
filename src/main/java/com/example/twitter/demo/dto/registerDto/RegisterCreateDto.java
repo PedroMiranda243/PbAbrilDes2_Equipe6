@@ -1,4 +1,4 @@
-package com.example.twitter.demo.dto;
+package com.example.twitter.demo.dto.registerDto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

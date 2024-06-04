@@ -1,38 +1,41 @@
 package com.example.twitter.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Entity
+@Table(name = "posts")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Data
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "postId")
+    @JsonProperty("id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "register_id")
-    private Register register;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", nullable = false)
+    @JsonProperty("authorId")
+    private Register author;
 
-    private String authorId;
-    private String author;
-
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false)
     private String text;
 
+    @JsonProperty("likes")
     private int likes;
-    private int reposts;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "post_id")
-    private List<Comment> comments;
-
-    @Column(columnDefinition = "TIMESTAMP")
+    @CreatedDate
+    @JsonProperty("createdAt")
     private LocalDateTime createdAt;
 
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime updatedAt;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "repost_of_id")
+    private Post repostOf;
+
 }

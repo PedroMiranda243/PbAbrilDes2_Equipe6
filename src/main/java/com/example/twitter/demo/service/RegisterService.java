@@ -1,5 +1,9 @@
 package com.example.twitter.demo.service;
 
+import com.example.twitter.demo.dto.mapper.RegisterMapper;
+import com.example.twitter.demo.dto.postDto.PostResponseDto;
+import com.example.twitter.demo.dto.registerDto.RegisterResponseDto;
+import com.example.twitter.demo.entity.Post;
 import com.example.twitter.demo.entity.Register;
 import com.example.twitter.demo.exception.PasswordInvalidException;
 import com.example.twitter.demo.exception.UsernameUniqueViolationException;
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RegisterService {
@@ -77,4 +82,25 @@ public class RegisterService {
     public void excluirPorId(Long id) {
         userRepository.deleteById(id);
     }
+
+    @Transactional
+    public void follow(Long userId, Long followerId) {
+        Register user = buscarPorId(userId);
+        Register follower = buscarPorId(followerId);
+
+        user.addFollower(follower);
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void unfollow(Long userId, Long followerId) {
+        Register user = buscarPorId(userId);
+        Register follower = buscarPorId(followerId);
+
+        user.removeFollower(follower);
+        userRepository.save(user);
+    }
+
+
+
 }

@@ -1,7 +1,7 @@
 package com.example.twitter.demo.dto.mapper;
 
-import com.example.twitter.demo.dto.RegisterCreateDto;
-import com.example.twitter.demo.dto.RegisterResponseDto;
+import com.example.twitter.demo.dto.registerDto.RegisterCreateDto;
+import com.example.twitter.demo.dto.registerDto.RegisterResponseDto;
 import com.example.twitter.demo.entity.Register;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;

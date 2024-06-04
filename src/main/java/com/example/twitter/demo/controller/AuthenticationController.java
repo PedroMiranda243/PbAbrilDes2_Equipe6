@@ -1,6 +1,6 @@
 package com.example.twitter.demo.controller;
 
-import com.example.twitter.demo.dto.RegisterLoginDto;
+import com.example.twitter.demo.dto.registerDto.RegisterLoginDto;
 import com.example.twitter.demo.exception.ErrorMessage;
 import com.example.twitter.demo.security.JwtToken;
 import com.example.twitter.demo.security.JwtUserDatailsService;

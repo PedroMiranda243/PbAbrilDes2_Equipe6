@@ -1,8 +1,10 @@
-package com.example.twitter.demo.dto;
+package com.example.twitter.demo.dto.registerDto;
 
+import com.example.twitter.demo.dto.postDto.PostResponseDto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,6 +19,7 @@ public class RegisterResponseDto {
     private String summary;
     private LocalDate birthDate;
     private String username;
+    private List<PostResponseDto> posts;
     private String email;
     private String password;
     private String role;

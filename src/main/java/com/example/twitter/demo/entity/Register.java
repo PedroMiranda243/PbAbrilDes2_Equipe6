@@ -1,18 +1,20 @@
 package com.example.twitter.demo.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import java.time.LocalDate;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Data
+@Table(name = "register")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Register {
 
     @Id
@@ -25,8 +27,6 @@ public class Register {
 
     private String summary;
 
-    private LocalDate birthDate;
-
     private String username;
 
     private String email;
@@ -37,14 +37,14 @@ public class Register {
     @Column(name = "role", nullable = false, length = 25)
     private Role role = Role.ROLE_USUARIO;
 
-    @OneToMany(mappedBy = "register", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Post> posts;
-
     @OneToMany(mappedBy = "followed", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Follow> follows;
 
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Follow> followers;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Post> posts;
 
     @Column(name = "created_at")
     @CreatedDate
@@ -54,12 +54,19 @@ public class Register {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    public void validateAge(){
-        LocalDate today = LocalDate.now();
-        Period period = Period.between(birthDate, today);
-        int age = period.getYears();
-        if(age < 18){
-            throw new IllegalArgumentException("Need be 18 or older than 18");
+    public void addFollower(Register follower) {
+        if (followers == null) {
+            followers = new ArrayList<>();
+        }
+        Follow follow = new Follow();
+        follow.setFollower(this);
+        follow.setFollowed(follower);
+        followers.add(follow);
+    }
+
+    public void removeFollower(Register follower) {
+        if (followers != null) {
+            followers.removeIf(f -> f.getFollowed().equals(follower));
         }
     }
 
